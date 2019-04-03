@@ -27,34 +27,34 @@
 </head>
 
 <body>
-	<div id="content">
+	<div id="accel">
 	<h1> Technical Ex 3</h1>
 
 	<div id="sphere" style="top: 0px; left: 0px;"> </div>
-	<ul>
+	<ul style ="list-style: none;">
 		<li>
-		"acceleration x: "  
+		acceleration x:   
 		<span id="accelerationX"> </span> 
-		"a"
+		
 	</li>
 	<li>
-		"acceleration y: "  
+		acceleration y: " 
 		<span id="accelerationY"> </span>
-		"b"
+		
 	</li>
 	<li>
-		"acceleration z: " 
+		acceleration z:  
 		<span id="accelerationZ"> </span>
-		"c"
+		
 	</li>
 </ul>
+</div>
+<div id= "">
 
 	<button onclick="getLocation()">Location</button>
+
 	<p id= "Location"></p>
-
-
-	
-</div>
+	</div>
 
 <script type="text/javascript">
 var x = 0, y = 0,
@@ -108,23 +108,24 @@ function boundingBoxCheck(){
 	if (y>document.documentElement.clientHeight-20) { y = document.documentElement.clientHeight-20; vy = -vy; }
 	
 }
-</script>
 
-	<script>
-var x = document.getElementById("Location");
+var c = document.getElementById("Location");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
-    x.innerHTML = "Geolocation is not supported by this browser.";
+    c.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
 
 function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  c.innerHTML = "Latitude: " + position.coords.latitude + 
   "<br>Longitude: " + position.coords.longitude; 
 }
 </script>
+
+
+
   
 </body>
 </html>
