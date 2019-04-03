@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 	<title>Brock Tech Ex 3</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <meta name="viewport" content="width=device-width,user-scalable=yes">
   <style>
 
@@ -30,6 +31,9 @@
 	<div id="accel">
 	<h1> Technical Ex 3</h1>
 
+	<div class = "weatherResponse">
+
+
 	<div id="sphere" style="top: 0px; left: 0px;"> </div>
 	<ul style ="list-style: none;">
 		<li>
@@ -49,14 +53,30 @@
 	</li>
 </ul>
 </div>
-<div id= "">
+<div id= "button1">
 
 	<button onclick="getLocation()">Location</button>
 
 	<p id= "Location"></p>
 	</div>
+<div id= "button2">
+	<button onclick="weatherCallback()"> Weather</button>
+	<div class= "weatherResponse">
+</div>
+
 
 <script type="text/javascript">
+var apiCall = 'api.openweathermap.org/data/2.5/weather?q=Wellington&appid=8330efcd2d8a0ed9f114b30cfc616080';
+
+$.getJSON(apiCall, weatherCallback);
+
+function weatherCallback(weatherData){
+	var cityName = weatherData.name;
+	var country = weatherData.sys.country;
+	var description = weatherData.weather[0].description; $('.weatherResponse').append("The current weather in " + cityName  + " " + country +  "  is  " +  description);
+}
+
+
 var x = 0, y = 0,
     vx = 0, vy = 0,
 	ax = 0, ay = 0;
@@ -112,7 +132,7 @@ function boundingBoxCheck(){
 var c = document.getElementById("Location");
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.watchPosition(showPosition);
   } else {
     c.innerHTML = "Geolocation is not supported by this browser.";
   }
