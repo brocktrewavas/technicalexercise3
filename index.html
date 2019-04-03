@@ -2,56 +2,97 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+	<title>Brock Tech Ex 3</title>
+  <meta name="viewport" content="width=device-width,user-scalable=yes">
+  <style>
 
-  <title>Brock Tech Ex 3</title>
+  body {
+  	font-family: helvetica, arial, sans serif;
+  }
+
+  #sphere {
+  	position: absolute;
+  	width: 50px;
+  	height: 50px;
+  	border-radius: 50px;
+  	-webkit-radius: 50px;
+  	background-color: red;
+  }
+
+
+</style>
+
+ 
 
 </head>
 
 <body>
-
+	<div id="content">
 	<h1> Technical Ex 3</h1>
+	<div id="sphere" style="top: 0px; left: 0px;"> </div>
+	<p>
+		acceleration x:  <span id="accelerationX"> </span> 
+		acceleration y:  <span id="accelerationY"> </span>
+		acceleration z:  <span id="accelerationZ"> </span>
+	</p>
 
 	<button onclick="getLocation()">Location</button>
 
 	<p id= "Location"></p>
 
 
-	<canvas id="myCanvas" width="360" height="450" style="border:1px 
-	solid #d3d3d3;">
+<script type="text/javascript">
+var x = 0, y = 0,
+    vx = 0, vy = 0,
+	ax = 0, ay = 0;
+	
+var sphere = document.getElementById("sphere");
 
-</canvas>
+if (window.DeviceMotionEvent != undefined) {
+	window.ondevicemotion = function(e) {
+		ax = event.accelerationIncludingGravity.x * 5;
+		ay = event.accelerationIncludingGravity.y * 5;
+		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
+		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
+		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
 
-<script>
-	function deviceOrientationListener(event) {
-		var c = document.getElementById("myCanvas");
-		var ctx = c.getContext("2d");
-
-		ctx.clearRect(0, 0, c.width, c.height);
-		ctx.fillStyle = "#FF7777";
-		ctx.font = "14px Verdana";
-		ctx.fillText("Alpha: " + Math.Round(event.alpha), 10, 20);
-		ctx.beginPath();
-		ctx.moveTo(180, 75);
-		ctx.lineTo(210, 75);
-		ctx.arc(180, 75, 60, 0, event.alpha * Math.PI / 180);
-		ctx.fill();
-
-		ctx.fillStyle = "#FF6600";
-		ctx.fillText("Beta: " + Math.round(event.beta), 10, 140);
-		ctx.beginPath();
-		ctx.fillRect(180, 150, event.beta, 90);
-
-		ctx.fillStyle = "#FF0000";
-		ctx.fillText("Gamma: " + Math.round(event.gamma), 10, 270);
-		ctx.beginPath();
-		ctx.fillRect(90, 340, 180, event.gamma);
+		if ( e.rotationRate ) {
+			document.getElementById("rotationAlpha").innerHTML = e.rotationRate.alpha;
+			document.getElementById("rotationBeta").innerHTML = e.rotationRate.beta;
+			document.getElementById("rotationGamma").innerHTML = e.rotationRate.gamma;
+		}		
 	}
-	if (window.DeviceOrientationEvent) {
-		window.addEventListener("deviceorientation", deviceOrientationListener);
-	} else {
-		alert("Doesn't support Device Orientation")
-	}
+
+	setInterval( function() {
+		var landscapeOrientation = window.innerWidth/window.innerHeight > 1;
+		if ( landscapeOrientation) {
+			vx = vx + ay;
+			vy = vy + ax;
+		} else {
+			vy = vy - ay;
+			vx = vx + ax;
+		}
+		vx = vx * 0.98;
+		vy = vy * 0.98;
+		y = parseInt(y + vy / 50);
+		x = parseInt(x + vx / 50);
+		
+		boundingBoxCheck();
+		
+		sphere.style.top = y + "px";
+		sphere.style.left = x + "px";
+		
+	}, 25);
+} 
+
+
+function boundingBoxCheck(){
+	if (x<0) { x = 0; vx = -vx; }
+	if (y<0) { y = 0; vy = -vy; }
+	if (x>document.documentElement.clientWidth-20) { x = document.documentElement.clientWidth-20; vx = -vx; }
+	if (y>document.documentElement.clientHeight-20) { y = document.documentElement.clientHeight-20; vy = -vy; }
+	
+}
 </script>
 
 	<script>
