@@ -59,22 +59,11 @@
 
 	<p id= "Location"></p>
 	</div>
-<div id= "button2">
-	<button onclick="weatherCallback()"> Weather</button>
-	<div class= "weatherResponse">
-</div>
+
 
 
 <script type="text/javascript">
-var apiCall = 'api.openweathermap.org/data/2.5/weather?q=Wellington&appid=8330efcd2d8a0ed9f114b30cfc616080';
 
-$.getJSON(apiCall, weatherCallback);
-
-function weatherCallback(weatherData){
-	var cityName = weatherData.name;
-	var country = weatherData.sys.country;
-	var description = weatherData.weather[0].description; $('.weatherResponse').append("The current weather in " + cityName  + " " + country +  "  is  " +  description);
-}
 
 
 var x = 0, y = 0,
